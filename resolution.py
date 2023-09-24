@@ -59,7 +59,7 @@ class Table:
 initialState = [0, 1, 3, 4, 2, 6, 7, 5, 8]
 objective = [1, 2, 3, 4, 5, 6, 7, 8, 0]
 actualState = initialState
-flag = 1
+flag = 0
 resolution = []
 
 newFathers = []
@@ -67,19 +67,24 @@ children = []
 fathers = []
 fathers.append(Table([], initialState))
 
-while flag:
+while flag != -1 and flag < 5000:
+    flag += 1
     for father in fathers:
         aux = father.state
         children = father.getChildren(father.state)
         for child in children:
             newFathers.append(Table(father, child))
             if child == objective:
-                flag = 0
+                flag = -1
                 break
-        if flag == 0:
+        if flag == -1:
             break
     fathers = newFathers
     newFathers = []
+
+if flag >= 5000:
+    print("Sem resolucao ou resolucao muito longa!")
+    exit()
 
 father = fathers[-1]
 
